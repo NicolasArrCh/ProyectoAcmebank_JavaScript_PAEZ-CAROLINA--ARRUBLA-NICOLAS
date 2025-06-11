@@ -37,3 +37,6 @@ Acme Bank es una plataforma bancaria digital que permite a los usuarios gestiona
 - Validación de datos y cambio seguro de contraseña.
 - Formulario de nueva contraseña en caso de validación exitosa.
 
+### 📊 Dashboard
+Contiene un menú de navegación con las siguientes secciones:
+
