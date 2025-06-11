@@ -31,3 +31,9 @@ Acme Bank es una plataforma bancaria digital que permite a los usuarios gestiona
   - Fecha de creación
 - Confirmación con resumen de la cuenta.
 - Botón para cancelar y volver al inicio.
+
+### 🔄 Recuperación de Contraseña
+- Solicita tipo y número de identificación + correo electrónico.
+- Validación de datos y cambio seguro de contraseña.
+- Formulario de nueva contraseña en caso de validación exitosa.
+
