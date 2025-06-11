@@ -47,3 +47,7 @@ Contiene un menú de navegación con las siguientes secciones:
 - Muestra las 10 últimas transacciones.
 - Incluye: fecha, referencia, tipo, descripción, valor.
 - Botón para imprimir.
+
+#### ➕ Consignación Electrónica
+- Ingreso de montos al saldo.
+- Genera transacción con resumen e impresión.
