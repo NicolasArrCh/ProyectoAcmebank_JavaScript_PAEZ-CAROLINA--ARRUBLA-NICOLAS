@@ -56,3 +56,6 @@ Contiene un menú de navegación con las siguientes secciones:
 - Descuento del saldo.
 - Registro de movimiento e impresión.
 
+#### 📅 Extracto Bancario
+- Selección de mes y año.
+- Muestra todas las transacciones en el periodo.
