@@ -9,3 +9,15 @@ Repositorio oficial del proyecto *Acme Bank*, una aplicación web desarrollada e
 ## 📌 Descripción del Proyecto
 
 Acme Bank es una plataforma bancaria digital que permite a los usuarios gestionar sus cuentas sin intervención directa del banco. Implementa funcionalidades clave como inicio de sesión, registro de cuenta, recuperación de contraseña, transacciones bancarias, generación de extractos y certificados, todo con persistencia de datos en el navegador utilizando estructuras JSON.
+
+---
+
+## 🧩 Funcionalidades Principales
+
+### 🔐 Inicio de Sesión
+- Formulario con tipo de identificación, número de identificación y contraseña.
+- Validación de credenciales.
+- Redirección al Dashboard en caso de éxito.
+- Enlaces a:
+  - *Crear cuenta*
+  - *Recordar contraseña*
