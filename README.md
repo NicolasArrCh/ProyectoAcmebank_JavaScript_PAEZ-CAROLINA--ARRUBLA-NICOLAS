@@ -42,3 +42,8 @@ Contiene un menú de navegación con las siguientes secciones:
 
 #### 🧾 Resumen de Cuenta
 - Visualización de número de cuenta, saldo actual y fecha de creación.
+
+#### 💸 Resumen de Transacciones
+- Muestra las 10 últimas transacciones.
+- Incluye: fecha, referencia, tipo, descripción, valor.
+- Botón para imprimir.
