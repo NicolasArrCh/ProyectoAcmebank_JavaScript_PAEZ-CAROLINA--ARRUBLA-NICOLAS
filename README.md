@@ -64,3 +64,6 @@ Contiene un menú de navegación con las siguientes secciones:
 - Certificación de cuenta activa.
 - Fecha de creación.
 - Disponible para impresión.
+
+#### 🔓 Cerrar Sesión
+- Retorna al inicio de sesión.
