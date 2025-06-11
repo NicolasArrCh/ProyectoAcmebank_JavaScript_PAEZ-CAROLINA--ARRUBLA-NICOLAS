@@ -55,3 +55,4 @@ Contiene un menú de navegación con las siguientes secciones:
 #### ➖ Retiro de Dinero
 - Descuento del saldo.
 - Registro de movimiento e impresión.
+
