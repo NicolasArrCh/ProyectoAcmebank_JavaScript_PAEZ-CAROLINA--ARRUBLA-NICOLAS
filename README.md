@@ -21,3 +21,13 @@ Acme Bank es una plataforma bancaria digital que permite a los usuarios gestiona
 - Enlaces a:
   - *Crear cuenta*
   - *Recordar contraseña*
+
+
+### 📝 Registro de Cuenta
+- Formulario con datos personales completos.
+- Validación en tiempo real de campos obligatorios.
+- Generación automática de:
+  - Número de cuenta bancaria
+  - Fecha de creación
+- Confirmación con resumen de la cuenta.
+- Botón para cancelar y volver al inicio.
