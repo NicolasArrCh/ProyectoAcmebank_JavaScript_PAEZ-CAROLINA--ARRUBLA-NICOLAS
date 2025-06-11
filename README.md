@@ -51,3 +51,7 @@ Contiene un menú de navegación con las siguientes secciones:
 #### ➕ Consignación Electrónica
 - Ingreso de montos al saldo.
 - Genera transacción con resumen e impresión.
+
+#### ➖ Retiro de Dinero
+- Descuento del saldo.
+- Registro de movimiento e impresión.
