@@ -59,3 +59,8 @@ Contiene un menú de navegación con las siguientes secciones:
 #### 📅 Extracto Bancario
 - Selección de mes y año.
 - Muestra todas las transacciones en el periodo.
+
+#### 📄 Certificado Bancario
+- Certificación de cuenta activa.
+- Fecha de creación.
+- Disponible para impresión.
