@@ -40,3 +40,5 @@ Acme Bank es una plataforma bancaria digital que permite a los usuarios gestiona
 ### 📊 Dashboard
 Contiene un menú de navegación con las siguientes secciones:
 
+#### 🧾 Resumen de Cuenta
+- Visualización de número de cuenta, saldo actual y fecha de creación.
