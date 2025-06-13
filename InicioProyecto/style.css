@@ -4,41 +4,51 @@
 }
 
 body {
-  background: #f0f2f5;
+  background: url('img/fondo-escritorio-moderno-vector-diseno-azul-geometrico_53876-135923.avif') no-repeat center center fixed;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  height: 100vh;
   margin: 0;
-  padding: 0;
-  overflow: hidden;
-  color: #fff;
-  background: #0e0e0e;
+  color: #fcf8f8;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('img/pngtree-glowing-honeycomb-on-a-sinister-carbon-fiber-backdrop-image_13903506.png') center center / cover no-repeat;
+  opacity: 0.15;
+  z-index: -1;
 }
 
 #particles-js {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: -2;
 }
 
 .container {
-  background-size: cover;
+  background: url('img/istockphoto-1169152910-612x612.jpg') no-repeat center center / cover, #ffffffee;
   padding: 2.5rem 2rem;
   border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 420px;
   position: relative;
-  margin: auto;
-  top: 10vh;
   animation: slideIn 0.6s ease-out;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
 }
 
 .logo {
-  width: 40px;
+  width: 170px;
   height: auto;
   vertical-align: middle;
   margin-right: 0.5rem;
@@ -46,9 +56,9 @@ body {
 
 h2 {
   text-align: center;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
   font-size: 1.5rem;
-  color: #6cf0f5;
+  color: #3db4f8;
 }
 
 form {
@@ -70,7 +80,7 @@ input, select {
 
 button {
   padding: 0.9rem;
-  background-color: #4caf50;
+  background-color: #1b6bd3;
   color: white;
   font-weight: bold;
   border: none;
@@ -91,7 +101,7 @@ button:hover {
 }
 
 .switch a {
-  color: #00b0ff;
+  color: #007bff;
   cursor: pointer;
   text-decoration: none;
   font-weight: 600;
