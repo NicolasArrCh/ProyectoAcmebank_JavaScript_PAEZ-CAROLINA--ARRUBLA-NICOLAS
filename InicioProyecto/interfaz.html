@@ -1,11 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AcmeBank</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Acme-Bank</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>ACMEBANK</h1>
+  <div class="container">
+    <h2 id="form-title">Iniciar Sesión</h2>
+
+    <form id="login-form" class="active">
+      <input type="text" placeholder="Número de documento" required />
+      <input type="password" placeholder="Contraseña" required />
+      <button type="submit">Ingresar</button>
+      <div class="switch">
+        ¿No tienes cuenta? <a onclick="showForm('register')">Regístrate</a><br/>
+        ¿Olvidaste tu contraseña? <a onclick="showForm('reset')">Restablecer</a>
+      </div>
+    </form>
+
+    <form id="register-form">
+      <input type="text" placeholder="Nombre completo" required />
+
+      <select id="doc-type" required>
+        <option value="">Selecciona tipo de documento</option>
+        <option value="cedula">Cédula</option>
+        <option value="dni">DNI</option>
+        <option value="pasaporte">Pasaporte</option>
+        <option value="otro">Otro</option>
+      </select>
+
+      <input type="text" id="doc-number" placeholder="Número de documento" required />
+      <input type="date" id="birthdate" placeholder="Fecha de nacimiento" required />
+      <input type="password" placeholder="Crear contraseña" required />
+      <div class="error" id="error-message"></div>
+      <button type="submit">Registrarse</button>
+      <div class="switch">
+        ¿Ya tienes cuenta? <a onclick="showForm('login')">Inicia sesión</a>
+      </div>
+    </form>
+
+    <form id="reset-form">
+      <input type="text" placeholder="Número de documento" required />
+      <button type="submit">Restablecer contraseña</button>
+      <div class="switch">
+        ¿Recuerdas tu contraseña? <a onclick="showForm('login')">Inicia sesión</a>
+      </div>
+    </form>
+  </div>
+
+  <script src="main.js"></script>
 </body>
 </html>
