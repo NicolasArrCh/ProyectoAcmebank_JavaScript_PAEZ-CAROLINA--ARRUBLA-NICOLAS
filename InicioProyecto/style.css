@@ -11,7 +11,7 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  color: #fcf8f8;
+  color: #333;
   position: relative;
 }
 
@@ -80,7 +80,7 @@ input, select {
 
 button {
   padding: 0.9rem;
-  background-color: #1b6bd3;
+  background-color: #4caf50;
   color: white;
   font-weight: bold;
   border: none;

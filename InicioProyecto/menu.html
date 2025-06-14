@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menú Principal - Acme Bank</title>
+  <link rel="stylesheet" href="menu.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <canvas id="particles-js"></canvas>
+
+  <div class="container">
+    <h2 class="titulo-menu">Bienvenido a Acme Bank</h2>
+    <h3 id="nombre-usuario" class="nombre-usuario"></h3>  <!-- Aquí va el nombre -->
+
+    <p class="saldo">Saldo disponible: <strong>$ 350.000</strong></p>
+
+    <div class="menu-opciones">
+      <button onclick="alert('Función Enviar Dinero')">💸 Enviar Dinero</button>
+      <button onclick="alert('Función Ingresar Dinero')">💰 Ingresar Dinero</button>
+      <button onclick="alert('Función Sacar Dinero')">$ Sacar Dinero</button>
+      <button onclick="alert('Función Ver Movimientos')">📄 Ver Movimientos</button>
+      <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+/* Fuente y base */
+* {
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+}
+
+body {
+  background-color: #000000; /* Fondo negro sólido */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: #fcf8f8;
+  position: relative;
+}
+
+.nombre-usuario {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: #00f0ff; /* celeste neón */
+}
+
+/* Partículas */
+#particles-js {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+/* Contenedor principal del menú */
+.container {
+  background: url('img/fondo-escritorio-moderno-vector-diseno-azul-geometrico_53876-135923.avif') no-repeat center center / cover, #ffffffee;
+  padding: 10rem 2.6rem;
+  border-radius: 50px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 1600px; /* Aumentado de 420px a 500px */
+  position: relative;
+  animation: slideIn 0.6s ease-out;
+  backdrop-filter: blur(6px);
+}
+
+/* Título */
+.titulo-menu {
+  text-align: center;
+  color: #3db4f8;
+  font-size: 2rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Saldo */
+.saldo {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #ffffff;
+  background: #1b6bd3dd;
+  padding: 1.5rem 5rem;
+  border-radius: 10px;
+}
+
+/* Contenedor de los botones del menú */
+.menu-opciones {
+  display: flex;
+  flex-direction: column;
+  align-items: center;        /* Centra horizontalmente */
+  gap: 1.2rem;
+  width: 100%;
+}
+
+/* Botones del menú */
+.menu-opciones button {
+  padding: 1.1rem;
+  font-size: 1rem;
+  width: 80%;
+  max-width: 350px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #3db4f8, #9a00ff); /* Azul neón */
+  color: #fcf8f8;            /* Blanco suave */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 0 10px #3db4f8aa;
+}
+
+.menu-opciones button:hover {
+  background: linear-gradient(135deg, #3db4f8, #9a00ff); /* Azul más fuerte */
+  transform: scale(1.03);
+  box-shadow: 0 0 15px #00f0ffcc;
+}
+
+/* Animación de entrada */
+@keyframes slideIn {
+  from { transform: translateY(-40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
