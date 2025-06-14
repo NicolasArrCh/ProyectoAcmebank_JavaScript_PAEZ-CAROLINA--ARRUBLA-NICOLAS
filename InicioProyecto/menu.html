@@ -12,16 +12,47 @@
 
   <div class="container">
     <h2 class="titulo-menu">Bienvenido a Acme Bank</h2>
-    <h3 id="nombre-usuario" class="nombre-usuario"></h3>  <!-- Aquí va el nombre -->
+    <h3 id="nombre-usuario" class="nombre-usuario"></h3> <!-- Aquí va el nombre -->
 
     <p class="saldo">Saldo disponible: <strong>$ 350.000</strong></p>
 
     <div class="menu-opciones">
-      <button onclick="alert('Función Enviar Dinero')">💸 Enviar Dinero</button>
-      <button onclick="alert('Función Ingresar Dinero')">💰 Ingresar Dinero</button>
-      <button onclick="alert('Función Sacar Dinero')">$ Sacar Dinero</button>
-      <button onclick="alert('Función Ver Movimientos')">📄 Ver Movimientos</button>
+      <button id="btn-enviar">💸 Enviar Dinero</button>
+      <button id="btn-ingresar">💰 Ingresar Dinero</button>
+      <button id="btn-sacar">$ Sacar Dinero</button>
+      <button id="btn-movimientos">📄 Ver Movimientos</button>
       <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
+    </div>
+
+    <div id="contenido-dinamico" class="contenido-dinamico">
+      <div id="enviar-dinero" class="contenido oculto">
+        <h3>💸 Enviar Dinero</h3>
+        <input type="text" placeholder="Documento destino" class="input-estilo" />
+        <input type="number" placeholder="Valor a enviar" class="input-estilo" />
+        <button class="btn-estilo">Enviar</button>
+      </div>
+
+      <div id="ingresar-dinero" class="contenido oculto">
+        <h3>💰 Ingresar Dinero</h3>
+        <input type="number" placeholder="Valor a ingresar" class="input-estilo" />
+        <button class="btn-estilo">Ingresar</button>
+      </div>
+
+      <div id="sacar-dinero" class="contenido oculto">
+        <h3>🏧 Sacar Dinero</h3>
+        <input type="number" placeholder="Valor a retirar" class="input-estilo" />
+        <button class="btn-estilo">Retirar</button>
+      </div>
+
+      <div id="ver-movimientos" class="contenido oculto">
+        <h3>📄 Historial de Movimientos</h3>
+        <ul>
+          <li>+ $50.000 - Recarga</li>
+          <li>- $20.000 - Enviado a Juan</li>
+          <li>+ $100.000 - Recarga</li>
+          <li>- $30.000 - Retiro</li>
+        </ul>
+      </div>
     </div>
   </div>
 

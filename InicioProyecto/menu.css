@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #000000; /* Fondo negro sólido */
+  background-color: #000000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,10 +19,9 @@ body {
   display: block;
   margin-top: 0.5rem;
   font-size: 1.2rem;
-  color: #00f0ff; /* celeste neón */
+  color: #00f0ff;
 }
 
-/* Partículas */
 #particles-js {
   position: fixed;
   top: 0;
@@ -32,20 +31,18 @@ body {
   z-index: -2;
 }
 
-/* Contenedor principal del menú */
 .container {
   background: url('img/fondo-escritorio-moderno-vector-diseno-azul-geometrico_53876-135923.avif') no-repeat center center / cover, #ffffffee;
   padding: 10rem 2.6rem;
   border-radius: 50px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
   width: 100%;
-  max-width: 1600px; /* Aumentado de 420px a 500px */
+  max-width: 1600px;
   position: relative;
   animation: slideIn 0.6s ease-out;
   backdrop-filter: blur(6px);
 }
 
-/* Título */
 .titulo-menu {
   text-align: center;
   color: #3db4f8;
@@ -53,7 +50,6 @@ body {
   margin-bottom: 1.2rem;
 }
 
-/* Saldo */
 .saldo {
   text-align: center;
   font-size: 2rem;
@@ -64,16 +60,14 @@ body {
   border-radius: 10px;
 }
 
-/* Contenedor de los botones del menú */
 .menu-opciones {
   display: flex;
   flex-direction: column;
-  align-items: center;        /* Centra horizontalmente */
+  align-items: center;
   gap: 1.2rem;
   width: 100%;
 }
 
-/* Botones del menú */
 .menu-opciones button {
   padding: 1.1rem;
   font-size: 1rem;
@@ -81,8 +75,8 @@ body {
   max-width: 350px;
   border: none;
   border-radius: 10px;
-  background: linear-gradient(135deg, #3db4f8, #9a00ff); /* Azul neón */
-  color: #fcf8f8;            /* Blanco suave */
+  background: linear-gradient(135deg, #3db4f8, #9a00ff);
+  color: #fcf8f8;
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
@@ -90,13 +84,64 @@ body {
 }
 
 .menu-opciones button:hover {
-  background: linear-gradient(135deg, #3db4f8, #9a00ff); /* Azul más fuerte */
+  background: linear-gradient(135deg, #3db4f8, #9a00ff);
   transform: scale(1.03);
   box-shadow: 0 0 15px #00f0ffcc;
 }
 
-/* Animación de entrada */
 @keyframes slideIn {
   from { transform: translateY(-40px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
+}
+
+.oculto {
+  display: none;
+}
+
+.contenido-dinamico {
+  margin-top: 2rem;
+}
+
+.contenido {
+  background: #1b6bd3cc;
+  padding: 2rem;
+  margin-top: 1rem;
+  border-radius: 15px;
+  box-shadow: 0 0 12px #00f0ff88;
+  text-align: center;
+  animation: slideIn 0.4s ease-out;
+}
+
+.input-estilo {
+  width: 80%;
+  max-width: 300px;
+  margin: 0.5rem auto;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  display: block;
+}
+
+.btn-estilo {
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  background: linear-gradient(135deg, #3db4f8, #9a00ff);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #3db4f8aa;
+  transition: transform 0.2s ease;
+}
+
+.btn-estilo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #00f0ffcc;
+}
+
+.contenido ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
 }
