@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
   font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1px;
 }
 
 body {
@@ -121,4 +122,35 @@ button:hover {
 @keyframes slideIn {
   from { transform: translateY(-40px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
+}
+
+.input-error{
+  border: 1px solid red !important;
+  background-color: #fff0f0;
+}
+
+.hint{
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: -0.8rem;
+  margin-bottom: 1rem;
+}
+
+.password-container{
+  position: relative;
+}
+
+.password-toggle{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  color: #666;
+}
+
+.success{
+  color: green;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
 }
