@@ -1,4 +1,3 @@
-/* Fuente y base */
 * {
   box-sizing: border-box;
   font-family: 'Orbitron', sans-serif;
@@ -184,4 +183,104 @@ body {
 .validez,
 .nombre {
   font-size: 0.9rem;
+}
+
+.tarjeta-contenedor {
+  perspective: 1000px;
+  width: 320px;
+  margin: 2rem auto;
+}
+
+.tarjeta {
+  width: 100%;
+  height: 190px;
+  border-radius: 15px;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  position: relative;
+  box-shadow: 0 0 20px #00f0ffaa;
+  cursor: pointer;
+}
+
+.tarjeta.volteada {
+  transform: rotateY(180deg);
+}
+
+.tarjeta .frontal,
+.tarjeta .trasera {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  padding: 1rem;
+  border-radius: 15px;
+  box-sizing: border-box;
+}
+
+.tarjeta .frontal {
+  background: linear-gradient(135deg, #3db4f8, #9a00ff);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.tarjeta .trasera {
+  background: #222;
+  color: #fff;
+  transform: rotateY(180deg);
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1.2rem;
+}
+
+.chip {
+  width: 50px;
+  height: 35px;
+  background: gold;
+  border-radius: 8px;
+}
+
+.marca {
+  text-align: right;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.numero {
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  margin-top: 1rem;
+}
+
+.validez,
+.nombre {
+  font-size: 0.9rem;
+}
+
+.banda {
+  background: #555;
+  height: 30px;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.cvv {
+  background: white;
+  color: black;
+  padding: 0.3rem;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.firma {
+  border-top: 1px solid #999;
+  width: 100%;
+  text-align: right;
+  margin-top: auto;
+  font-style: italic;
 }
