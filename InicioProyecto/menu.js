@@ -31,42 +31,56 @@ document.getElementById('btn-tarjeta').addEventListener('click', () => {
 
 document.getElementById('btn-qr').addEventListener('click', () => {
   ocultarTodo();
-  document.getElementById('escaneo-qr').classList.remove('oculto');
-  iniciarQR();
+  document.getElementById('scanner-qr').classList.remove('oculto');
+  iniciarScanner();
 });
+
+document.getElementById('btn-generar-qr').addEventListener('click', () => {
+  ocultarTodo();
+  document.getElementById('generar-qr').classList.remove('oculto');
+});
+
+function cerrarSesion() {
+  alert("Sesión cerrada correctamente.");
+}
 
 function voltearTarjeta() {
   const tarjeta = document.getElementById('tarjeta');
   tarjeta.classList.toggle('volteada');
 }
 
-function cerrarSesion() {
-  alert("Sesión cerrada correctamente.");
+let qrScanner;
+
+function iniciarScanner() {
+  const video = document.getElementById('qr-video');
+  const resultado = document.getElementById('resultado-qr');
+
+  if (!qrScanner) {
+    qrScanner = new QrScanner(video, result => {
+      resultado.textContent = `Contenido QR: ${result}`;
+      qrScanner.stop();
+    });
+  }
+
+  qrScanner.start();
 }
 
-function iniciarQR() {
-  const video = document.getElementById('preview');
-  const resultado = document.getElementById('resultadoQR');
+function generarQR() {
+  const texto = document.getElementById('texto-qr').value.trim();
+  const contenedor = document.getElementById('qr-generado');
+  contenedor.innerHTML = "";
 
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    resultado.textContent = "Tu dispositivo no soporta escaneo con cámara.";
+  if (!texto) {
+    contenedor.textContent = "Escribe algo primero.";
     return;
   }
 
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-    .then((stream) => {
-      video.srcObject = stream;
-      video.setAttribute("playsinline", true);
-      video.play();
-
-      const scanner = new QrScanner(video, result => {
-        resultado.textContent = `Código detectado: ${result}`;
-        scanner.stop();
-        stream.getTracks().forEach(track => track.stop());
-      });
-      scanner.start();
-    })
-    .catch(err => {
-      resultado.textContent = "Error al acceder a la cámara.";
-    });
+  new QRCode(contenedor, {
+    text: texto,
+    width: 200,
+    height: 200,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
 }

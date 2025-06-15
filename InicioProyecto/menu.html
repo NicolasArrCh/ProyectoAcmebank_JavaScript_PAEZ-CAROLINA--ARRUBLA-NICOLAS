@@ -23,11 +23,11 @@
       <button id="btn-movimientos">📄 Ver Movimientos</button>
       <button id="btn-tarjeta">💳 Mi Tarjeta</button>
       <button id="btn-qr">📷 Escanear QR</button>
+      <button id="btn-generar-qr">🧾 Generar QR</button>
       <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
     </div>
 
     <div id="contenido-dinamico" class="contenido-dinamico">
-      <!-- Enviar Dinero -->
       <div id="enviar-dinero" class="contenido oculto">
         <h3>💸 Enviar Dinero</h3>
         <input type="text" placeholder="Nombre del destinatario" class="input-estilo" />
@@ -38,7 +38,6 @@
         <button class="btn-estilo">Confirmar Envío</button>
       </div>
 
-      <!-- Ingresar Dinero -->
       <div id="ingresar-dinero" class="contenido oculto">
         <h3>💰 Ingresar Dinero</h3>
         <input type="number" placeholder="Valor a ingresar" class="input-estilo" />
@@ -52,7 +51,6 @@
         <button class="btn-estilo">Ingresar</button>
       </div>
 
-      <!-- Sacar Dinero -->
       <div id="sacar-dinero" class="contenido oculto">
         <h3>🏧 Sacar Dinero</h3>
         <input type="number" placeholder="Valor a retirar" class="input-estilo" />
@@ -65,7 +63,6 @@
         <button class="btn-estilo">Generar Retiro</button>
       </div>
 
-      <!-- Ver Movimientos -->
       <div id="ver-movimientos" class="contenido oculto">
         <h3>📄 Historial de Movimientos</h3>
         <ul>
@@ -76,7 +73,6 @@
         </ul>
       </div>
 
-      <!-- Tarjeta Virtual -->
       <div id="ver-tarjeta" class="contenido oculto">
         <h3>💳 Mi Tarjeta Virtual</h3>
         <div class="tarjeta-contenedor" onclick="voltearTarjeta()">
@@ -98,17 +94,24 @@
         <p>Haz clic sobre la tarjeta para girarla.</p>
       </div>
 
-      <div id="escaneo-qr" class="contenido oculto">
+      <div id="scanner-qr" class="contenido oculto">
         <h3>📷 Escanear Código QR</h3>
-        <p>Apunta tu cámara al código QR para escanearlo.</p>
-        <video id="preview" width="300" height="200" style="border: 2px solid #fff; border-radius: 10px;"></video>
-        <p id="resultadoQR" style="margin-top: 1rem;">Esperando código...</p>
+        <video id="qr-video" width="300" height="250" autoplay></video>
+        <p id="resultado-qr"></p>
+      </div>
+
+      <div id="generar-qr" class="contenido oculto">
+        <h3>🧾 Generar Código QR</h3>
+        <input type="text" id="texto-qr" class="input-estilo" placeholder="Escribe algo para generar el QR" />
+        <button onclick="generarQR()" class="btn-estilo">Generar</button>
+        <div id="qr-generado" style="margin-top: 1rem;"></div>
       </div>
     </div>
   </div>
->
+
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script src="https://unpkg.com/qr-scanner@1.4.2/qr-scanner.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="menu.js"></script>
 </body>
 </html>

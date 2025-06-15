@@ -1,4 +1,4 @@
-* {
+   * {
   box-sizing: border-box;
   font-family: 'Orbitron', sans-serif;
 }
@@ -285,10 +285,4 @@ body {
   text-align: right;
   margin-top: auto;
   font-style: italic;
-}
-
-#preview {
-  border: 2px solid #00f0ff;
-  border-radius: 10px;
-  margin-top: 1rem;
 }
