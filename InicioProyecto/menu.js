@@ -29,6 +29,12 @@ document.getElementById('btn-tarjeta').addEventListener('click', () => {
   document.getElementById('ver-tarjeta').classList.remove('oculto');
 });
 
+document.getElementById('btn-qr').addEventListener('click', () => {
+  ocultarTodo();
+  document.getElementById('escaneo-qr').classList.remove('oculto');
+  iniciarQR();
+});
+
 function voltearTarjeta() {
   const tarjeta = document.getElementById('tarjeta');
   tarjeta.classList.toggle('volteada');
@@ -36,4 +42,31 @@ function voltearTarjeta() {
 
 function cerrarSesion() {
   alert("Sesión cerrada correctamente.");
+}
+
+function iniciarQR() {
+  const video = document.getElementById('preview');
+  const resultado = document.getElementById('resultadoQR');
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    resultado.textContent = "Tu dispositivo no soporta escaneo con cámara.";
+    return;
+  }
+
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+    .then((stream) => {
+      video.srcObject = stream;
+      video.setAttribute("playsinline", true);
+      video.play();
+
+      const scanner = new QrScanner(video, result => {
+        resultado.textContent = `Código detectado: ${result}`;
+        scanner.stop();
+        stream.getTracks().forEach(track => track.stop());
+      });
+      scanner.start();
+    })
+    .catch(err => {
+      resultado.textContent = "Error al acceder a la cámara.";
+    });
 }
