@@ -145,3 +145,43 @@ body {
   padding: 0;
   margin-top: 1rem;
 }
+
+.tarjeta {
+  background: linear-gradient(135deg, #3db4f8, #9a00ff);
+  width: 320px;
+  height: 190px;
+  border-radius: 15px;
+  margin: 2rem auto;
+  color: white;
+  padding: 1.2rem;
+  box-shadow: 0 0 20px #00f0ffaa;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.chip {
+  width: 50px;
+  height: 35px;
+  background: gold;
+  border-radius: 8px;
+}
+
+.marca {
+  text-align: right;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.numero {
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  margin-top: 1rem;
+}
+
+.validez,
+.nombre {
+  font-size: 0.9rem;
+}
