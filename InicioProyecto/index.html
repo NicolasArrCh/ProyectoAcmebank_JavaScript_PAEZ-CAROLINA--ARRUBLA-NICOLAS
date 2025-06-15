@@ -17,28 +17,54 @@
     <h2 id="form-title">Bienvenido de nuevo</h2>
 
     <form id="login-form" class="active">
-      <input type="text" placeholder="Ingresa tu documento" required />
-      <input type="password" placeholder="Tu clave secreta" required />
+      <select id="login-doc-type">
+        <option value="">Tipo de documento</option>
+        <option value="cc">Cédula de Ciudadanía</option>
+        <option value="ce">Cédula de Extranjería</option>
+        <option value="ti">Tarjeta de Identidad</option>
+        <option value="otro">Otro</option>
+      </select>
+      <input type="text" id="login-doc-number" placeholder="Ingresa tu documento" class="input-numeric" pattern="\d*" maxlength="20" required />
+      
+      <div class="hint">Solo números, sin puntos ni guiones o espacios</div>
+
+      <div class="password-container">
+        <input type="password" id="login-password" placeholder="Tu clave secreta" class="input-numeric" pattern="\d*" maxlength="6" required />
+      </div>
+      
+      <span class="password-toggle" onclick="togglePassword('login-password')">👁️</span>
+      <div class="hint">Debe contener exactamente 6 dígitos númericos</div>
+
       <button type="submit">Entrar</button>
       <div class="switch">
         ¿Aún no tienes cuenta? <a onclick="showForm('register')">Crear cuenta</a><br/>
         ¿Olvidaste tu clave? <a onclick="showForm('reset')">Recuperar acceso</a>
       </div>
+      <div class="error" id="login-error"></div>
     </form>
 
     <form id="register-form">
-      <input type="text" placeholder="Nombre completo" required />
+      <input type="text" id="register-name" placeholder="Nombre completo" required />
+      <input type="email" id="register-email" placeholder="Correo electrónico" requierd />
+
       <select id="doc-type" required>
         <option value="">Tipo de documento</option>
-        <option value="cedula">Cédula</option>
-        <option value="dni">DNI</option>
-        <option value="pasaporte">Pasaporte</option>
+        <option value="cc">Cédula de Ciudadanía</option>
+        <option value="ce">Cédula de Extranjería</option>
+        <option value="ti">Tarjeta de Identidad</option>
         <option value="otro">Otro</option>
       </select>
-      <input type="text" id="doc-number" placeholder="Número de documento" required />
+
       <input type="date" id="birthdate" placeholder="Fecha de nacimiento" required />
-      <input type="password" placeholder="Crea tu contraseña segura" required />
-      <div class="error" id="error-message"></div>
+
+      <div class="password-container">
+        <input type="password" id="register-password" placeholder="Constraseña (6 dígitos)" class="input-numeric" pattern="\d*" maxlength="6" required />
+        <span class="password-toggle" onclick="togglePassword('register-password')">👁️</span>
+      </div>
+      <div class="hint">Debe contener exactamente 6 dígitos numéricos</div>
+
+      <div class="error" id="register-error"></div>
+      <div class="success" id="register-success"></div>
       <button type="submit">Registrarme</button>
       <div class="switch">
         ¿Ya tienes cuenta? <a onclick="showForm('login')">Inicia sesión</a>
@@ -46,8 +72,10 @@
     </form>
 
     <form id="reset-form">
-      <input type="text" placeholder="Tu número de documento" required />
-      <button type="submit">Enviar nueva contraseña</button>
+      <input type="email" id="reset-email" placeholder="Tu correo electrónico" required />
+      <button type="submit">Enviar enlace de recuperación</button>
+      <div class="error" id="reset-error"></div>
+      <div class="success" id="reset-success"></div>
       <div class="switch">
         ¿Ya la recordaste? <a onclick="showForm('login')">Volver a inicio</a>
       </div>
@@ -55,5 +83,9 @@
   </div>
   <script src="main.js"></script>
 <body>
+  <!-- firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
 </html>
   
