@@ -1,86 +1,163 @@
-function ocultarTodo() {
-  document.querySelectorAll('.contenido').forEach(div => {
-    div.classList.add('oculto');
-  });
-}
+let saldo = parseFloat(localStorage.getItem("saldo")) || 1200000;
+let movimientos = JSON.parse(localStorage.getItem("movimientos")) || [];
 
-document.getElementById('btn-enviar').addEventListener('click', () => {
-  ocultarTodo();
-  document.getElementById('enviar-dinero').classList.remove('oculto');
-});
+const actualizarSaldo = () => {
+  document.querySelector(".saldo").textContent = `Saldo disponible: $${saldo.toLocaleString()}`;
+  localStorage.setItem("saldo", saldo);
+};
 
-document.getElementById('btn-ingresar').addEventListener('click', () => {
-  ocultarTodo();
-  document.getElementById('ingresar-dinero').classList.remove('oculto');
-});
+const mostrarSeccion = (id) => {
+  document.querySelectorAll(".contenido").forEach(div => div.classList.add("oculto"));
+  document.getElementById(id).classList.remove("oculto");
+};
 
-document.getElementById('btn-sacar').addEventListener('click', () => {
-  ocultarTodo();
-  document.getElementById('sacar-dinero').classList.remove('oculto');
-});
+window.voltearTarjeta = () => {
+  document.getElementById("tarjeta").classList.toggle("volteada");
+};
 
-document.getElementById('btn-movimientos').addEventListener('click', () => {
-  ocultarTodo();
-  document.getElementById('ver-movimientos').classList.remove('oculto');
-});
+document.getElementById("btn-enviar").onclick = () => mostrarSeccion("enviar-dinero");
+document.getElementById("btn-ingresar").onclick = () => mostrarSeccion("ingresar-dinero");
+document.getElementById("btn-sacar").onclick = () => mostrarSeccion("sacar-dinero");
+document.getElementById("btn-movimientos").onclick = () => {
+  mostrarSeccion("ver-movimientos");
+  actualizarListaMovimientos();
+};
+document.getElementById("btn-tarjeta").onclick = () => mostrarSeccion("ver-tarjeta");
+document.getElementById("btn-generarqr").onclick = () => mostrarSeccion("generar-qr");
+document.getElementById("btn-escanearqr").onclick = () => {
+  mostrarSeccion("escanear-qr");
+  escanearQR();
+};
 
-document.getElementById('btn-tarjeta').addEventListener('click', () => {
-  ocultarTodo();
-  document.getElementById('ver-tarjeta').classList.remove('oculto');
-});
+document.querySelector("#enviar-dinero .btn-estilo").onclick = () => {
+  const inputs = document.querySelectorAll("#enviar-dinero input");
+  const nombre = inputs[0].value;
+  const documento = inputs[1].value;
+  const cuenta = inputs[2].value;
+  const monto = parseFloat(inputs[3].value);
+  const concepto = inputs[4].value;
 
-document.getElementById('btn-qr').addEventListener('click', () => {
-  ocultarTodo();
-  document.getElementById('scanner-qr').classList.remove('oculto');
-  iniciarScanner();
-});
-
-document.getElementById('btn-generar-qr').addEventListener('click', () => {
-  ocultarTodo();
-  document.getElementById('generar-qr').classList.remove('oculto');
-});
-
-function cerrarSesion() {
-  alert("Sesión cerrada correctamente.");
-}
-
-function voltearTarjeta() {
-  const tarjeta = document.getElementById('tarjeta');
-  tarjeta.classList.toggle('volteada');
-}
-
-let qrScanner;
-
-function iniciarScanner() {
-  const video = document.getElementById('qr-video');
-  const resultado = document.getElementById('resultado-qr');
-
-  if (!qrScanner) {
-    qrScanner = new QrScanner(video, result => {
-      resultado.textContent = `Contenido QR: ${result}`;
-      qrScanner.stop();
-    });
-  }
-
-  qrScanner.start();
-}
-
-function generarQR() {
-  const texto = document.getElementById('texto-qr').value.trim();
-  const contenedor = document.getElementById('qr-generado');
-  contenedor.innerHTML = "";
-
-  if (!texto) {
-    contenedor.textContent = "Escribe algo primero.";
+  if (!nombre || !documento || !cuenta || isNaN(monto) || monto <= 0) {
+    alert("Por favor completa todos los campos correctamente.");
     return;
   }
 
-  new QRCode(contenedor, {
-    text: texto,
-    width: 200,
-    height: 200,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.H
+  if (monto > saldo) {
+    alert("Saldo insuficiente.");
+    return;
+  }
+
+  saldo -= monto;
+  movimientos.push(`Enviado $${monto.toLocaleString()} a ${nombre}`);
+  guardarMovimientos();
+  actualizarSaldo();
+  alert("Transferencia realizada con éxito.");
+  inputs.forEach(input => input.value = "");
+};
+
+document.querySelector("#ingresar-dinero").innerHTML = `
+  <h3>💰 Ingresar Dinero</h3>
+  <input type="number" class="input-estilo" id="monto-ingresar" placeholder="Monto a ingresar">
+  <button class="btn-estilo" onclick="ingresarDinero()">Confirmar Ingreso</button>
+`;
+
+window.ingresarDinero = () => {
+  const monto = parseFloat(document.getElementById("monto-ingresar").value);
+  if (isNaN(monto) || monto <= 0) {
+    alert("Ingresa un monto válido.");
+    return;
+  }
+  saldo += monto;
+  movimientos.push(`Ingresado $${monto.toLocaleString()}`);
+  guardarMovimientos();
+  actualizarSaldo();
+  alert("Dinero ingresado correctamente.");
+};
+
+document.querySelector("#sacar-dinero").innerHTML = `
+  <h3>🏧 Sacar Dinero</h3>
+  <input type="number" class="input-estilo" id="monto-sacar" placeholder="Monto a retirar">
+  <button class="btn-estilo" onclick="sacarDinero()">Confirmar Retiro</button>
+`;
+
+window.sacarDinero = () => {
+  const monto = parseFloat(document.getElementById("monto-sacar").value);
+  if (isNaN(monto) || monto <= 0) {
+    alert("Ingresa un monto válido.");
+    return;
+  }
+  if (monto > saldo) {
+    alert("Saldo insuficiente.");
+    return;
+  }
+  saldo -= monto;
+  movimientos.push(`Retirado $${monto.toLocaleString()}`);
+  guardarMovimientos();
+  actualizarSaldo();
+  alert("Dinero retirado correctamente.");
+};
+
+function actualizarListaMovimientos() {
+  const lista = document.querySelector("#ver-movimientos ul");
+  lista.innerHTML = "";
+  movimientos.slice().reverse().forEach(mov => {
+    const li = document.createElement("li");
+    li.textContent = mov;
+    lista.appendChild(li);
   });
 }
+
+function guardarMovimientos() {
+  localStorage.setItem("movimientos", JSON.stringify(movimientos));
+}
+
+function cerrarSesion() {
+  if (confirm("¿Deseas cerrar sesión?")) {
+    localStorage.clear();
+    window.location.href = "index.html";
+  }
+}
+
+document.getElementById("btn-generar").onclick = () => {
+  const nombre = document.getElementById("qr-nombre").value;
+  const documento = document.getElementById("qr-documento").value;
+  const cuenta = document.getElementById("qr-cuenta").value;
+  const monto = document.getElementById("qr-monto").value;
+
+  if (!nombre || !documento || !cuenta || !monto) {
+    alert("Completa todos los campos.");
+    return;
+  }
+
+  const datosQR = {
+    nombre, documento, cuenta, monto
+  };
+
+  QRCode.toCanvas(document.createElement("canvas"), JSON.stringify(datosQR), (error, canvas) => {
+    if (error) return alert("Error al generar QR");
+    const contenedorQR = document.getElementById("codigo-qr");
+    contenedorQR.innerHTML = "";
+    contenedorQR.appendChild(canvas);
+  });
+};
+
+function escanearQR() {
+  const video = document.getElementById("video");
+  const qrResult = document.getElementById("qr-result");
+
+  QrScanner.hasCamera().then(hasCamera => {
+    if (!hasCamera) {
+      qrResult.textContent = "No se encontró una cámara.";
+      return;
+    }
+
+    const scanner = new QrScanner(video, result => {
+      qrResult.textContent = "Datos recibidos: " + result;
+      scanner.stop();
+    });
+
+    scanner.start();
+  });
+}
+
+actualizarSaldo();

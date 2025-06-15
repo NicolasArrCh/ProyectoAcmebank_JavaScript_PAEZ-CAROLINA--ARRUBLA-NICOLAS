@@ -1,4 +1,4 @@
-   * {
+* {
   box-sizing: border-box;
   font-family: 'Orbitron', sans-serif;
 }
@@ -109,7 +109,7 @@ body {
   box-shadow: 0 0 12px #00f0ff88;
   text-align: center;
   animation: slideIn 0.4s ease-out;
-  max-width: 600px; /* 👈 Reduce el ancho máximo */
+  max-width: 600px;
   width: 90%;
 }
 
@@ -285,4 +285,4 @@ body {
   text-align: right;
   margin-top: auto;
   font-style: italic;
-}
+} 
