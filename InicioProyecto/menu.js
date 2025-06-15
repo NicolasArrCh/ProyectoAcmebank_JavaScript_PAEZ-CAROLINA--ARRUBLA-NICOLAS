@@ -118,7 +118,7 @@ function cerrarSesion() {
   }
 }
 
-document.getElementById("btn-generar").onclick = () => {
+document.getElementById("btn-generarqr-confirmar").onclick = () => {
   const nombre = document.getElementById("qr-nombre").value;
   const documento = document.getElementById("qr-documento").value;
   const cuenta = document.getElementById("qr-cuenta").value;
@@ -129,9 +129,7 @@ document.getElementById("btn-generar").onclick = () => {
     return;
   }
 
-  const datosQR = {
-    nombre, documento, cuenta, monto
-  };
+  const datosQR = { nombre, documento, cuenta, monto };
 
   QRCode.toCanvas(document.createElement("canvas"), JSON.stringify(datosQR), (error, canvas) => {
     if (error) return alert("Error al generar QR");
