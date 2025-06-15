@@ -104,11 +104,13 @@ body {
 .contenido {
   background: #1b6bd3cc;
   padding: 2rem;
-  margin-top: 1rem;
+  margin: 1rem auto;
   border-radius: 15px;
   box-shadow: 0 0 12px #00f0ff88;
   text-align: center;
   animation: slideIn 0.4s ease-out;
+  max-width: 600px; /* 👈 Reduce el ancho máximo */
+  width: 90%;
 }
 
 .input-estilo {
