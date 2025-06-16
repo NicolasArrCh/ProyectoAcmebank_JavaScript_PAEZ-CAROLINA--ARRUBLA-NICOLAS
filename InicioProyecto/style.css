@@ -2,20 +2,18 @@
   box-sizing: border-box;
   font-family: 'Orbitron', sans-serif;
   letter-spacing: 1px;
-  margin: 0;
-  padding: 0;
 }
 
 body {
-  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+  background: url('img/fondo-escritorio-moderno-vector-diseno-azul-geometrico_53876-135923.avif') no-repeat center center fixed;
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  color: #fff;
+  height: 100vh;
+  margin: 0;
+  color: #333;
   position: relative;
-  transition: all 0.5s ease;
 }
 
 body.modo-claro {
@@ -23,15 +21,134 @@ body.modo-claro {
   color: #333;
 }
 
+body::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('img/pngtree-glowing-honeycomb-on-a-sinister-carbon-fiber-backdrop-image_13903506.png') center center / cover no-repeat;
+  opacity: 0.15;
+  z-index: -1;
+}
+
 .container {
-  background: rgba(0, 0, 0, 0.7);
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-  width: 95%;
-  max-width: 450px;
-  backdrop-filter: blur(10px);
-  transition: all 0.5s ease;
+  background: url('img/istockphoto-1169152910-612x612.jpg') no-repeat center center / cover, #ffffffee;
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  animation: slideIn 0.6s ease-out;
+  backdrop-filter: blur(6px);
+  }
+
+.logo {
+  width: 170px;
+  height: auto;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  color: #3db4f8;
+}
+
+form {
+  display: none;
+  flex-direction: column;
+}
+
+form.active {
+  display: flex;
+}
+
+input, select {
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+button {
+  padding: 0.9rem;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #43a047;
+}
+
+.switch {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.switch a {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.switch a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.input-error{
+  border: 1px solid red !important;
+  background-color: #fff0f0;
+}
+
+.hint{
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: -0.8rem;
+  margin-bottom: 1rem;
+}
+
+.password-container{
+  position: relative;
+}
+
+.password-toggle{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  color: #666;
+}
+
+.success{
+  color: green;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
 }
 
 .config-btn {
@@ -68,6 +185,15 @@ body.modo-claro .config-btn {
   backdrop-filter: blur(5px);
   transform-origin: top left;
   animation: fadeIn 0.3s ease-out;
+}
+
+#particles-js {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
 }
 
 body.modo-claro .config-menu {
