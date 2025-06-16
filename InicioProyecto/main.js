@@ -11,19 +11,16 @@
 
 firebase.initializeApp(firebaseConfig);
 
-// Mostrar formularios
 function showForm(formName) {
   document.querySelectorAll("form").forEach(form => form.classList.remove("active"));
   document.getElementById(`${formName}-form`).classList.add("active");
 }
 
-// Alternar visibilidad de contraseña
 function togglePassword(id) {
   const input = document.getElementById(id);
   input.type = (input.type === "password") ? "text" : "password";
 }
 
-// ---------------- REGISTRO ----------------
 document.getElementById("register-form").addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -71,7 +68,6 @@ document.getElementById("register-form").addEventListener("submit", function (e)
     });
 });
 
-// ---------------- INICIO DE SESIÓN ----------------
 document.getElementById("login-form").addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -106,7 +102,6 @@ document.getElementById("login-form").addEventListener("submit", function (e) {
     });
 });
 
-// ---------------- RECUPERAR CONTRASEÑA ----------------
 document.getElementById("reset-form").addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -130,5 +125,4 @@ document.getElementById("reset-form").addEventListener("submit", function (e) {
     });
 });
 
-// Mostrar login por defecto al cargar
 showForm("login");
