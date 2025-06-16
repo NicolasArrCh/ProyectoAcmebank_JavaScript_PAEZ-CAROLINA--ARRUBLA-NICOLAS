@@ -29,6 +29,7 @@ document.getElementById("btn-escanearqr").onclick = () => {
   escanearQR();
 };
 
+// Enviar Dinero
 document.querySelector("#enviar-dinero .btn-estilo").onclick = () => {
   const inputs = document.querySelectorAll("#enviar-dinero input");
   const nombre = inputs[0].value;
@@ -55,6 +56,7 @@ document.querySelector("#enviar-dinero .btn-estilo").onclick = () => {
   inputs.forEach(input => input.value = "");
 };
 
+// Ingresar Dinero
 document.querySelector("#ingresar-dinero").innerHTML = `
   <h3>💰 Ingresar Dinero</h3>
   <input type="number" class="input-estilo" id="monto-ingresar" placeholder="Monto a ingresar">
@@ -74,6 +76,7 @@ window.ingresarDinero = () => {
   alert("Dinero ingresado correctamente.");
 };
 
+// Sacar Dinero
 document.querySelector("#sacar-dinero").innerHTML = `
   <h3>🏧 Sacar Dinero</h3>
   <input type="number" class="input-estilo" id="monto-sacar" placeholder="Monto a retirar">
@@ -97,6 +100,7 @@ window.sacarDinero = () => {
   alert("Dinero retirado correctamente.");
 };
 
+// Lista de Movimientos
 function actualizarListaMovimientos() {
   const lista = document.querySelector("#ver-movimientos ul");
   lista.innerHTML = "";
@@ -111,6 +115,7 @@ function guardarMovimientos() {
   localStorage.setItem("movimientos", JSON.stringify(movimientos));
 }
 
+// Cerrar Sesión
 function cerrarSesion() {
   if (confirm("¿Deseas cerrar sesión?")) {
     localStorage.clear();
@@ -118,7 +123,8 @@ function cerrarSesion() {
   }
 }
 
-document.getElementById("btn-generarqr-confirmar").onclick = () => {
+// ✅ Generar QR
+document.getElementById("btn-generar").onclick = () => {
   const nombre = document.getElementById("qr-nombre").value;
   const documento = document.getElementById("qr-documento").value;
   const cuenta = document.getElementById("qr-cuenta").value;
@@ -139,6 +145,7 @@ document.getElementById("btn-generarqr-confirmar").onclick = () => {
   });
 };
 
+// 📷 Escanear QR
 function escanearQR() {
   const video = document.getElementById("video");
   const qrResult = document.getElementById("qr-result");
@@ -158,4 +165,5 @@ function escanearQR() {
   });
 }
 
+// Iniciar mostrando saldo
 actualizarSaldo();
