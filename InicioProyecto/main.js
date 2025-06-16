@@ -1,6 +1,4 @@
-if (typeof firebase === 'undefined') {
-  console.error('Firebase no está cargado. Verifica los scripts.');
-} else {
+
   const firebaseConfig = {
     apiKey: "AIzaSyDJr0HvUVTpUV-yZi_8D5BVgi-rWwHZrsU",
     authDomain: "newlogin-8dd90.firebaseapp.com",
@@ -11,217 +9,126 @@ if (typeof firebase === 'undefined') {
     appId: "1:509239189396:web:3948ef416f77aad1bdf981"
   };
 
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-    const auth = firebase.auth();
-    const database = firebase.database();
+firebase.initializeApp(firebaseConfig);
 
-    // Función para mostrar formularios
-    function showForm(formType) {
-    document.querySelectorAll('form').forEach(form => {
-        form.classList.remove('active');
-    });
-    document.getElementById(`${formType}-form`).classList.add('active');
-    }
+// Mostrar formularios
+function showForm(formName) {
+  document.querySelectorAll("form").forEach(form => form.classList.remove("active"));
+  document.getElementById(`${formName}-form`).classList.add("active");
+}
 
-    // Función para alternar visibilidad de contraseña
-    function togglePassword(inputId) {
-    const input = document.getElementById(inputId);
-    input.type = input.type === 'password' ? 'text' : 'password';
-    }
+// Alternar visibilidad de contraseña
+function togglePassword(id) {
+  const input = document.getElementById(id);
+  input.type = (input.type === "password") ? "text" : "password";
+}
 
-    // Función para buscar usuario por documento
-    async function findUserByDocument(docType, docNumber) {
-    try {
-        const snapshot = await database.ref('users').orderByChild('docNumber').equalTo(docNumber).once('value');
-        if (snapshot.exists()) {
-        let userData = null;
-        snapshot.forEach(childSnapshot => {
-            const data = childSnapshot.val();
-            if (data.docType === docType) {
-            userData = {
-                uid: childSnapshot.key,
-                email: data.email,
-                ...data
-            };
-            }
-        });
-        return userData;
-        }
-        return null;
-    } catch (error) {
-        console.error("Error buscando usuario:", error);
-        return null;
-    }
-    }
+// ---------------- REGISTRO ----------------
+document.getElementById("register-form").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-    document.getElementById('login-form'),addEventListener('sumit', async (e) => {
-        e.preventDefault();
+  const nombre = document.getElementById("register-name").value.trim();
+  const email = document.getElementById("register-email").value.trim();
+  const docType = document.getElementById("doc-type").value;
+  const documento = document.getElementById("doc-number").value.trim();
+  const nacimiento = document.getElementById("birthdate").value;
+  const password = document.getElementById("register-password").value.trim();
+  const registerError = document.getElementById("register-error");
+  const registerSuccess = document.getElementById("register-success");
 
-        const docType = document.getElementById('login-doc-type').value;
-        const docNumber = document.getElementById('login-doc-number').value.replace(/\D/g, '');
-        const password = document.getElementById('login-password').value;
-        const errorElement = document.getElementById('login-error');
-
-        errorElement.textContent = '';
-
-        if (!docType || !docNumber || !password) {
-    errorElement.textContent = 'Por favor completa todos los campos';
+  if (!nombre || !email || !docType || !documento || !nacimiento || !password) {
+    registerError.textContent = "Completa todos los campos.";
     return;
   }
 
-  try {
-    const userData = await findUserByDocument(docType, docNumber);
-    if (!userData) {
-      errorElement.textContent = 'No se encontró un usuario con ese documento';
-      return;
-    }
-
-    // Iniciar sesión con email y contraseña
-    await auth.signInWithEmailAndPassword(userData.email, password);
-    
-    // Redirigir al dashboard
-    window.location.href = 'menu.html';
-
-  } catch (error) {
-    console.error("Error en login:", error);
-    let errorMessage = 'Error al iniciar sesión';
-
-    if (error.code === 'auth/wrong-password') {
-      errorMessage = 'Contraseña incorrecta';
-    } else if (error.code === 'auth/user-not-found') {
-      errorMessage = 'No existe una cuenta con estos datos';
-    } else if (error.code === 'auth/invalid-email') {
-      errorMessage = 'Correo electrónico inválido';
-    }
-
-    errorElement.textContent = errorMessage;
+  if (password.length < 6) {
+    registerError.textContent = "La contraseña debe tener al menos 6 caracteres.";
+    return;
   }
+
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const uid = userCredential.user.uid;
+      return firebase.database().ref("usuarios/" + uid).set({
+        nombre: nombre,
+        email: email,
+        documento: documento,
+        tipoDocumento: docType,
+        nacimiento: nacimiento
+      });
+    })
+    .then(() => {
+      registerSuccess.textContent = "✅ Registro exitoso. Ahora puedes iniciar sesión.";
+      registerError.textContent = "";
+    })
+    .catch((error) => {
+      if (error.code === "auth/email-already-in-use") {
+        registerError.textContent = "Este correo ya está registrado.";
+      } else {
+        registerError.textContent = "Error: " + error.message;
+      }
+      registerSuccess.textContent = "";
+    });
 });
 
-    // Manejar registro
-    document.getElementById('register-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const email = document.getElementById('register-email').value;
-    const password = document.getElementById('register-password').value;
-    const name = document.getElementById('register-name').value;
-    const docType = document.getElementById('doc-type').value;
-    const docNumber = document.getElementById('doc-number').value.replace(/\D/g, '');
-    const birthdate = document.getElementById('birthdate').value;
-    const errorElement = document.getElementById('register-error');
-    const successElement = document.getElementById('register-success');
+// ---------------- INICIO DE SESIÓN ----------------
+document.getElementById("login-form").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-    errorElement.textContent = '';
-    successElement.textContent = '';
+  const docNumberInput = document.getElementById("login-doc-number");
+  const passwordInput = document.getElementById("login-password");
+  const loginError = document.getElementById("login-error");
 
-    // Validaciones
-    if (!email || !password || !name || !docType || !docNumber || !birthdate) {
-        errorElement.textContent = 'Por favor completa todos los campos';
-        return;
-    }
+  const docNumber = docNumberInput.value.trim();
+  const password = passwordInput.value.trim();
 
-    if (!/^\d{6}$/.test(password)) {
-        errorElement.textContent = 'La contraseña debe tener exactamente 6 dígitos numéricos';
-        return;
-    }
+  if (!docNumber || !password) {
+    loginError.textContent = "Debes completar todos los campos.";
+    return;
+  }
 
-    try {
-        // Verificar si el documento ya existe
-        const existingUser = await findUserByDocument(docType, docNumber);
-        if (existingUser) {
-        errorElement.textContent = 'Este documento ya está registrado';
-        return;
-        }
+  firebase.database().ref("usuarios").orderByChild("documento").equalTo(docNumber).once("value")
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const userData = Object.values(snapshot.val())[0];
+        const email = userData.email;
 
-        // Crear usuario en Firebase Auth
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        
-        // Guardar datos adicionales en Realtime Database
-        await database.ref('users/' + userCredential.user.uid).set({
-        name: name,
-        email: email,
-        docType: docType,
-        docNumber: docNumber,
-        birthdate: birthdate,
-        createdAt: firebase.database.ServerValue.TIMESTAMP
-        });
-
-        successElement.textContent = '¡Registro exitoso! Redirigiendo...';
-        document.getElementById('register-form').reset();
-        
-        setTimeout(() => {
-        showForm('login');
-        successElement.textContent = '';
-        }, 2000);
-
-    } catch (error) {
-        console.error("Error en registro:", error);
-        let errorMessage = 'Error al registrar';
-        
-        if (error.code === 'auth/email-already-in-use') {
-        errorMessage = 'El correo electrónico ya está en uso';
-        } else if (error.code === 'auth/invalid-email') {
-        errorMessage = 'Correo electrónico inválido';
-        } else if (error.code === 'auth/weak-password') {
-        errorMessage = 'La contraseña debe tener al menos 6 caracteres';
-        }
-        
-        errorElement.textContent = errorMessage;
-    }
-    });
-
-    // Manejar recuperación de contraseña
-    document.getElementById('reset-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const email = document.getElementById('reset-email').value;
-    const errorElement = document.getElementById('reset-error');
-    const successElement = document.getElementById('reset-success');
-
-    errorElement.textContent = '';
-    successElement.textContent = '';
-
-    if (!email) {
-        errorElement.textContent = 'Por favor ingresa tu correo electrónico';
-        return;
-    }
-
-    try {
-        await firebase.auth().sendPasswordResetEmail(email);
-        successElement.textContent = 'Se ha enviado un enlace de recuperación a tu correo.';
-        document.getElementById('reset-form').reset();
-    } catch (error) {
-        console.error("Error al enviar correo de recuperación:", error);
-        let errorMessage = 'Error al enviar correo de recuperación';
-        
-        if (error.code === 'auth/user-not-found') {
-        errorMessage = 'No existe una cuenta con este correo electrónico';
-        } else if (error.code === 'auth/invalid-email') {
-        errorMessage = 'Correo electrónico inválido';
-        }
-        
-        errorElement.textContent = errorMessage;
-    }
-    });
-
-    // Validación de campos numéricos
-    document.querySelectorAll('.input-numeric').forEach(input => {
-    input.addEventListener('input', function(e) {
-        this.value = this.value.replace(/\D/g, '');
-        
-        if (this.id.includes('password') && this.value.length > 6) {
-        this.value = this.value.slice(0, 6);
-        }
-    });
-    });
-
-    // Observar estado de autenticación
-    firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        console.log("Usuario autenticado:", user.email);
-        // Aquí podrías redirigir al dashboard
-    }
+        return firebase.auth().signInWithEmailAndPassword(email, password);
+      } else {
+        throw new Error("Documento no registrado.");
+      }
     })
-}
+    .then(() => {
+      window.location.href = "menu.html";
+    })
+    .catch((error) => {
+      loginError.textContent = error.message;
+    });
+});
+
+// ---------------- RECUPERAR CONTRASEÑA ----------------
+document.getElementById("reset-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const resetEmail = document.getElementById("reset-email").value.trim();
+  const resetError = document.getElementById("reset-error");
+  const resetSuccess = document.getElementById("reset-success");
+
+  if (!resetEmail) {
+    resetError.textContent = "Ingresa un correo electrónico.";
+    return;
+  }
+
+  firebase.auth().sendPasswordResetEmail(resetEmail)
+    .then(() => {
+      resetSuccess.textContent = "Correo de recuperación enviado.";
+      resetError.textContent = "";
+    })
+    .catch((error) => {
+      resetError.textContent = "Error: " + error.message;
+      resetSuccess.textContent = "";
+    });
+});
+
+// Mostrar login por defecto al cargar
+showForm("login");
