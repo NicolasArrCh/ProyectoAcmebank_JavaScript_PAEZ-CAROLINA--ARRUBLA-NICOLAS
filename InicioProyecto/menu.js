@@ -29,7 +29,6 @@ document.getElementById("btn-escanearqr").onclick = () => {
   escanearQR();
 };
 
-// Enviar Dinero
 document.querySelector("#enviar-dinero .btn-estilo").onclick = () => {
   const inputs = document.querySelectorAll("#enviar-dinero input");
   const nombre = inputs[0].value;
@@ -53,10 +52,10 @@ document.querySelector("#enviar-dinero .btn-estilo").onclick = () => {
   guardarMovimientos();
   actualizarSaldo();
   alert("Transferencia realizada con éxito.");
+  mostrarNotificacion("💸 Dinero enviado con éxito.");
   inputs.forEach(input => input.value = "");
 };
 
-// Ingresar Dinero
 document.querySelector("#ingresar-dinero").innerHTML = `
   <h3>💰 Ingresar Dinero</h3>
   <input type="number" class="input-estilo" id="monto-ingresar" placeholder="Monto a ingresar">
@@ -74,9 +73,9 @@ window.ingresarDinero = () => {
   guardarMovimientos();
   actualizarSaldo();
   alert("Dinero ingresado correctamente.");
+  mostrarNotificacion("💰 Dinero ingresado correctamente.");
 };
 
-// Sacar Dinero
 document.querySelector("#sacar-dinero").innerHTML = `
   <h3>🏧 Sacar Dinero</h3>
   <input type="number" class="input-estilo" id="monto-sacar" placeholder="Monto a retirar">
@@ -98,9 +97,9 @@ window.sacarDinero = () => {
   guardarMovimientos();
   actualizarSaldo();
   alert("Dinero retirado correctamente.");
+  mostrarNotificacion("🏧 Retiro realizado.");
 };
 
-// Lista de Movimientos
 function actualizarListaMovimientos() {
   const lista = document.querySelector("#ver-movimientos ul");
   lista.innerHTML = "";
@@ -115,7 +114,6 @@ function guardarMovimientos() {
   localStorage.setItem("movimientos", JSON.stringify(movimientos));
 }
 
-// Cerrar Sesión
 function cerrarSesion() {
   if (confirm("¿Deseas cerrar sesión?")) {
     localStorage.clear();
@@ -123,7 +121,6 @@ function cerrarSesion() {
   }
 }
 
-// ✅ Generar QR
 document.getElementById("btn-generar").onclick = () => {
   const nombre = document.getElementById("qr-nombre").value;
   const documento = document.getElementById("qr-documento").value;
@@ -145,7 +142,6 @@ document.getElementById("btn-generar").onclick = () => {
   });
 };
 
-// 📷 Escanear QR
 function escanearQR() {
   const video = document.getElementById("video");
   const qrResult = document.getElementById("qr-result");
@@ -165,5 +161,16 @@ function escanearQR() {
   });
 }
 
-// Iniciar mostrando saldo
+function mostrarNotificacion(mensaje) {
+  const noti = document.getElementById("notificacion");
+  noti.textContent = mensaje;
+  noti.classList.add("mostrar");
+  noti.classList.remove("oculto");
+
+  setTimeout(() => {
+    noti.classList.remove("mostrar");
+    noti.classList.add("oculto");
+  }, 3000);
+}
+
 actualizarSaldo();
