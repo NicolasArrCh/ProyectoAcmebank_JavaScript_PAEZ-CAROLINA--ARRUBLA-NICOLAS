@@ -30,7 +30,6 @@ function configurarEventos() {
   });
   document.getElementById("btn-cerrar-sesion").addEventListener("click", cerrarSesion);
   document.querySelector(".config-btn").addEventListener("click", toggleConfigMenu);
-  document.querySelector(".cambiar-modo").addEventListener("click", cambiarModo);
   document.querySelector(".cambiar-contrasena").addEventListener("click", mostrarCambioContraseña);
   document.querySelector(".cambiar-nombre").addEventListener("click", mostrarCambioNombre);
   document.querySelector(".confirmar-envio").addEventListener("click", enviarDinero);
@@ -58,7 +57,6 @@ function inicializarSecciones() {
 
 function aplicarConfiguracion() {
   document.body.classList.toggle("modo-claro", !config.modoOscuro);
-  actualizarTextoBotonModo();
   actualizarNombreUsuario();
 }
 
@@ -66,13 +64,6 @@ function actualizarNombreUsuario() {
   const elementoNombre = document.getElementById("nombre-usuario");
   if (elementoNombre) {
     elementoNombre.textContent = config.nombreUsuario || "";
-  }
-}
-
-function actualizarTextoBotonModo() {
-  const botonModo = document.querySelector(".cambiar-modo");
-  if (botonModo) {
-    botonModo.textContent = config.modoOscuro ? '🌓 Cambiar a Modo Claro' : '🌓 Cambiar a Modo Oscuro';
   }
 }
 
@@ -111,15 +102,6 @@ function agregarBotonRegresar() {
 function toggleConfigMenu() {
   const menu = document.getElementById("config-menu");
   menu.classList.toggle("oculto");
-}
-
-function cambiarModo() {
-  config.modoOscuro = !config.modoOscuro;
-  localStorage.setItem("config", JSON.stringify(config));
-  document.body.classList.toggle("modo-claro", !config.modoOscuro);
-  actualizarTextoBotonModo();
-  mostrarNotificacion(`Modo ${config.modoOscuro ? "oscuro" : "claro"} activado`);
-  toggleConfigMenu();
 }
 
 function mostrarCambioContraseña() {
