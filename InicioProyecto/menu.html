@@ -13,8 +13,18 @@
   <div id="particles-js"></div>
 
   <div class="container">
-    <div class="titulo-menu">Bienvenido a Acme Bank</div>
+    <button class="config-btn">⚙️</button>
+    <div id="config-menu" class="config-menu oculto">
+      <div class="config-option cambiar-contrasena">🔒 Cambiar Contraseña</div>
+      <div class="config-option cambiar-nombre">👤 Cambiar Nombre</div>
+    </div>
+
+    <div class="titulo-menu">
+      <div>Bienvenido a Acme Bank</div>
+      <div class="nombre-usuario" id="nombre-usuario"></div>
+    </div>
     <div class="saldo">Saldo disponible: $1.200.000</div>
+    
     <div class="menu-opciones">
       <button id="btn-enviar">🪙 Enviar Dinero</button>
       <button id="btn-ingresar">💰 Ingresar Dinero</button>
@@ -23,7 +33,7 @@
       <button id="btn-tarjeta">💳 Mi Tarjeta</button>
       <button id="btn-generarqr">📤 Generar QR</button>
       <button id="btn-escanearqr">📷 Escanear QR</button>
-      <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
+      <button id="btn-cerrar-sesion">🔒 Cerrar Sesión</button>
     </div>
 
     <div class="contenido-dinamico">
@@ -34,7 +44,7 @@
         <input type="text" class="input-estilo" placeholder="Número de cuenta">
         <input type="number" class="input-estilo" placeholder="Monto a enviar">
         <input type="text" class="input-estilo" placeholder="Concepto (opcional)">
-        <button class="btn-estilo">Confirmar Envío</button>
+        <button class="btn-estilo confirmar-envio">Confirmar Envío</button>
       </div>
 
       <div id="ingresar-dinero" class="contenido oculto"></div>
@@ -43,11 +53,11 @@
 
       <div id="ver-movimientos" class="contenido oculto">
         <h3>📊 Movimientos</h3>
-        <ul></ul>
+        <ul class="lista-movimientos"></ul>
       </div>
 
       <div id="ver-tarjeta" class="contenido oculto tarjeta-contenedor">
-        <div class="tarjeta" id="tarjeta" onclick="voltearTarjeta()">
+        <div class="tarjeta" id="tarjeta">
           <div class="frontal">
             <div class="chip"></div>
             <div class="numero">1234 5678 9012 3456</div>
@@ -78,8 +88,23 @@
         <video id="video" width="300" height="200" style="border:1px solid #fff;"></video>
         <p id="qr-result"></p>
       </div>
+
+      <div id="cambiar-contrasena" class="contenido oculto">
+        <h3>🔒 Cambiar Contraseña</h3>
+        <input type="password" class="input-estilo" placeholder="Contraseña actual">
+        <input type="password" class="input-estilo" placeholder="Nueva contraseña">
+        <input type="password" class="input-estilo" placeholder="Confirmar nueva contraseña">
+        <button class="btn-estilo confirmar-contrasena">Cambiar</button>
+      </div>
+
+      <div id="cambiar-nombre" class="contenido oculto">
+        <h3>👤 Cambiar Nombre</h3>
+        <input type="text" class="input-estilo" placeholder="Nuevo nombre">
+        <button class="btn-estilo confirmar-nombre">Cambiar</button>
+      </div>
     </div>
   </div>
+  
   <div id="notificacion" class="notificacion oculto"></div>
 
   <script src="menu.js"></script>
