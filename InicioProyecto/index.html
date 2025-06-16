@@ -55,6 +55,9 @@
         <option value="otro">Otro</option>
       </select>
 
+      <input type="text" id="doc-number" placeholder="Número de documento" class="input-numeric" pattern="\d*" maxlength="20" required />
+      <div class="hint">Solo números, sin puntos ni guiones</div>
+
       <input type="date" id="birthdate" placeholder="Fecha de nacimiento" required />
 
       <div class="password-container">
@@ -84,8 +87,8 @@
   <script src="main.js"></script>
 <body>
   <!-- firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </html>
   
