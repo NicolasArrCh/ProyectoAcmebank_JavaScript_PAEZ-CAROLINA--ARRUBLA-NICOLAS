@@ -41,6 +41,11 @@ body {
   animation: slideIn 0.6s ease-out;
   backdrop-filter: blur(6px);
 }
+.config-btn {
+  font-size: 4rem;
+  background: none;
+  border: none;
+}
 
 .titulo-menu {
   text-align: center;
@@ -52,7 +57,7 @@ body {
 .saldo {
   text-align: center;
   font-size: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2rem; 
   color: #ffffff;
   background: #1b6bd3dd;
   padding: 1.5rem 5rem;
