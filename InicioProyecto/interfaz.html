@@ -1,11 +1,575 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AcmeBank</title>
+    <title>Acme Bank - Banca en Línea</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Orbitron & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- QR Code Generator Library CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+
+    <!-- Placeholder Comments -->
+    <!-- Chosen Palette: Cyberpunk Tech -->
+    <!-- Application Structure Plan: A Single Page Application (SPA) structure is used. Two primary views, '#auth-view' and '#menu-view', are contained within the body. Initially, only the auth view is visible. A successful login action hides the auth view and displays the menu view using JavaScript, avoiding a page reload. Inside the menu, different content sections are toggled for a fluid dashboard experience. This structure was chosen to create a fast, modern, and seamless user flow, directly translating the multi-screen Figma concept into a cohesive single-page app, which improves performance and user experience. -->
+    <!-- Visualization & Content Choices: 
+        - Authentication: Standard HTML forms toggled with JS. Goal: Access Control. Method: HTML/CSS/JS. Justification: Standard, intuitive pattern for users.
+        - Main Menu: A responsive CSS Grid of styled buttons. Goal: Navigation. Method: HTML/Tailwind Grid. Justification: Provides clear, scannable entry points to all key features.
+        - Transactions List: A dynamically generated HTML `<ul>` styled to look like a clean table. Goal: Inform. Method: JS data array -> HTML generation. Justification: Clearly presents detailed historical data.
+        - Transactions Chart: A responsive Chart.js Bar Chart. Goal: Compare/Analyze. Method: Chart.js Canvas. Justification: Provides a quick visual summary of income vs. expenses, adding significant data visualization value.
+        - Interactive Card: A CSS 3D flip animation on a `div`. Goal: Engagement/Inform. Method: CSS 3D Transforms + JS class toggle. Justification: A "wow" factor that makes a static element interactive and engaging.
+        - QR Code Generator: A `<canvas>` element populated by qrcode.js. Goal: Action/Share. Method: qrcode.js library. Justification: Utilizes a robust third-party library for a common, functional task.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a1a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 20px 20px;
+        }
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(15, 12, 41, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(119, 119, 255, 0.2);
+        }
+        .card {
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            cursor: pointer;
+        }
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .main-button-grid button {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        }
+        .main-button-grid button:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
+        }
+        .hidden {
+            display: none;
+        }
+        input, select {
+            background-color: rgba(0,0,0,0.3);
+            border-color: rgba(119, 119, 255, 0.3);
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #00f0ff;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+    </style>
 </head>
-<body>
-    <h1>ACMEBANK</h1>
+<body class="antialiased">
+
+    <!-- =========== AUTHENTICATION VIEW =========== -->
+    <div id="auth-view" class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md glass-panel rounded-2xl p-8 space-y-6">
+            <div class="text-center">
+                <h1 class="font-orbitron text-3xl font-bold text-white">ACME BANK</h1>
+                <p id="auth-title" class="text-cyan-300 mt-2">Bienvenido de nuevo</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <select class="w-full p-3 rounded-lg text-white">
+                        <option>Cédula de Ciudadanía</option>
+                        <option>Cédula de Extranjería</option>
+                        <option>Tarjeta de Identidad</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="text" placeholder="Ingresa tu documento" class="w-full p-3 rounded-lg text-white">
+                </div>
+                <div>
+                    <input type="password" placeholder="Tu clave secreta (6 dígitos)" class="w-full p-3 rounded-lg text-white">
+                </div>
+                <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 rounded-lg transition-colors">Entrar</button>
+                <div class="text-center text-sm space-y-2 pt-2">
+                    <a href="#" class="text-cyan-300 hover:underline" data-auth-view="reset">¿Olvidaste tu clave?</a>
+                    <p class="text-gray-400">¿Aún no tienes cuenta? <a href="#" class="font-bold text-cyan-300 hover:underline" data-auth-view="register">Crear cuenta</a></p>
+                </div>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="space-y-4 hidden">
+                <input type="text" placeholder="Nombre completo" class="w-full p-3 rounded-lg text-white">
+                <input type="email" placeholder="Correo electrónico" class="w-full p-3 rounded-lg text-white">
+                <input type="text" placeholder="Número de documento" class="w-full p-3 rounded-lg text-white">
+                <input type="password" placeholder="Crea tu clave de 6 dígitos" class="w-full p-3 rounded-lg text-white" maxlength="6">
+                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg transition-colors">Registrarme</button>
+                <div class="text-center text-sm">
+                    <p class="text-gray-400">¿Ya tienes cuenta? <a href="#" class="font-bold text-cyan-300 hover:underline" data-auth-view="login">Inicia sesión</a></p>
+                </div>
+            </form>
+
+            <!-- Reset Form -->
+            <form id="reset-form" class="space-y-4 hidden">
+                <input type="email" placeholder="Tu correo electrónico" class="w-full p-3 rounded-lg text-white">
+                <button type="submit" class="w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 rounded-lg transition-colors">Enviar enlace</button>
+                <div class="text-center text-sm">
+                    <p class="text-gray-400">¿Ya la recordaste? <a href="#" class="font-bold text-cyan-300 hover:underline" data-auth-view="login">Volver a inicio</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =========== MAIN MENU VIEW =========== -->
+    <div id="menu-view" class="hidden min-h-screen p-4 md:p-8">
+        <div class="w-full max-w-7xl mx-auto glass-panel rounded-2xl p-6 md:p-8">
+            <!-- Header -->
+            <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                <div>
+                    <h1 class="font-orbitron text-3xl font-bold text-white">ACME BANK</h1>
+                    <p id="user-greeting" class="text-cyan-300 mt-1 text-lg">Hola, Usuario</p>
+                </div>
+                <div class="text-center md:text-right mt-4 md:mt-0 bg-black/30 p-4 rounded-xl border border-cyan-500/20">
+                    <p class="text-sm text-gray-400">Saldo disponible</p>
+                    <p id="user-balance" class="font-orbitron text-3xl font-bold text-cyan-300">$0</p>
+                </div>
+            </header>
+
+            <!-- Main Content Grid -->
+            <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left: Menu Options -->
+                <div class="lg:col-span-1">
+                    <div id="main-menu-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-4 main-button-grid">
+                        <button data-section="send-money-section" class="glass-panel p-4 rounded-xl text-center">
+                            <span class="text-3xl">🪙</span>
+                            <span class="block mt-2 text-sm font-semibold">Enviar Dinero</span>
+                        </button>
+                        <button data-section="deposit-money-section" class="glass-panel p-4 rounded-xl text-center">
+                            <span class="text-3xl">💰</span>
+                            <span class="block mt-2 text-sm font-semibold">Ingresar</span>
+                        </button>
+                        <button data-section="withdraw-money-section" class="glass-panel p-4 rounded-xl text-center">
+                            <span class="text-3xl">🏧</span>
+                            <span class="block mt-2 text-sm font-semibold">Sacar</span>
+                        </button>
+                        <button data-section="transactions-section" class="glass-panel p-4 rounded-xl text-center">
+                            <span class="text-3xl">📊</span>
+                            <span class="block mt-2 text-sm font-semibold">Movimientos</span>
+                        </button>
+                        <button data-section="my-card-section" class="glass-panel p-4 rounded-xl text-center">
+                            <span class="text-3xl">💳</span>
+                            <span class="block mt-2 text-sm font-semibold">Mi Tarjeta</span>
+                        </button>
+                        <button data-section="qr-code-section" class="glass-panel p-4 rounded-xl text-center">
+                            <span class="text-3xl">📤</span>
+                            <span class="block mt-2 text-sm font-semibold">Generar QR</span>
+                        </button>
+                        <button class="glass-panel p-4 rounded-xl text-center" id="logout-button">
+                            <span class="text-3xl">🔒</span>
+                            <span class="block mt-2 text-sm font-semibold">Cerrar Sesión</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Dynamic Content -->
+                <div class="lg:col-span-2 bg-black/30 rounded-2xl p-6 min-h-[500px] relative">
+                    <button id="back-to-menu-button" class="absolute top-4 right-4 text-2xl text-gray-400 hover:text-white hidden">&times;</button>
+                    
+                    <!-- Welcome/Default Section -->
+                    <div id="welcome-section" class="content-section h-full flex flex-col items-center justify-center text-center">
+                         <h2 class="font-orbitron text-2xl text-white mb-2">Bienvenido a tu Banca en Línea</h2>
+                        <p class="text-gray-400">Selecciona una opción del menú para comenzar.</p>
+                    </div>
+
+                    <!-- Send Money Section -->
+                    <div id="send-money-section" class="content-section hidden">
+                        <h2 class="font-orbitron text-2xl text-white mb-6">Enviar Dinero</h2>
+                        <form class="space-y-4 max-w-md mx-auto">
+                             <input type="text" placeholder="Nombre del destinatario" class="w-full p-3 rounded-lg text-white">
+                             <input type="text" placeholder="Número de cuenta" class="w-full p-3 rounded-lg text-white">
+                             <input type="number" placeholder="Monto a enviar" class="w-full p-3 rounded-lg text-white">
+                             <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 rounded-lg transition-colors">Confirmar Envío</button>
+                        </form>
+                    </div>
+
+                    <!-- Deposit Money Section -->
+                    <div id="deposit-money-section" class="content-section hidden">
+                        <h2 class="font-orbitron text-2xl text-white mb-6">Ingresar Dinero</h2>
+                         <p class="text-center text-gray-400 mb-4">Esta es una demostración. Ingresa un monto para simular un depósito.</p>
+                        <form class="space-y-4 max-w-md mx-auto" id="deposit-form">
+                             <input type="number" id="deposit-amount" placeholder="Monto a ingresar" class="w-full p-3 rounded-lg text-white">
+                             <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 rounded-lg transition-colors">Confirmar Ingreso</button>
+                        </form>
+                    </div>
+
+                    <!-- Withdraw Money Section -->
+                    <div id="withdraw-money-section" class="content-section hidden">
+                        <h2 class="font-orbitron text-2xl text-white mb-6">Sacar Dinero</h2>
+                         <p class="text-center text-gray-400 mb-4">Ingresa un monto para simular un retiro.</p>
+                        <form class="space-y-4 max-w-md mx-auto" id="withdraw-form">
+                             <input type="number" id="withdraw-amount" placeholder="Monto a retirar" class="w-full p-3 rounded-lg text-white">
+                             <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 rounded-lg transition-colors">Confirmar Retiro</button>
+                        </form>
+                    </div>
+
+                    <!-- Transactions Section -->
+                    <div id="transactions-section" class="content-section hidden">
+                        <h2 class="font-orbitron text-2xl text-white mb-6">Movimientos Recientes</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                            <div>
+                                <h3 class="font-bold text-lg mb-2 text-cyan-300">Resumen Gráfico</h3>
+                                <div class="chart-container h-64">
+                                    <canvas id="transactionsChart"></canvas>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-2 text-cyan-300">Historial</h3>
+                                <ul id="transactions-list" class="space-y-3 max-h-64 overflow-y-auto pr-2">
+                                    <!-- JS will populate this -->
+                                </ul>
+                           </div>
+                        </div>
+                    </div>
+
+                    <!-- My Card Section -->
+                    <div id="my-card-section" class="content-section hidden">
+                        <h2 class="font-orbitron text-2xl text-white mb-6">Mi Tarjeta</h2>
+                        <div class="w-full max-w-sm mx-auto [perspective:1000px]">
+                            <div id="bank-card" class="card relative w-full h-56">
+                                <!-- Front Face -->
+                                <div class="card-face absolute w-full h-full rounded-2xl p-6 flex flex-col justify-between" style="background: linear-gradient(45deg, #2d3748, #4a5568);">
+                                    <div class="flex justify-between items-start">
+                                        <div class="w-12 h-8 bg-yellow-400 rounded-md"></div>
+                                        <span class="font-orbitron text-xl">ACME</span>
+                                    </div>
+                                    <div class="text-center font-orbitron text-xl tracking-widest">
+                                        4000 1234 5678 9010
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span id="card-holder-name">USUARIO</span>
+                                        <span>12/28</span>
+                                    </div>
+                                </div>
+                                <!-- Back Face -->
+                                <div class="card-back card-face absolute w-full h-full rounded-2xl p-6 flex flex-col justify-between" style="background: #4a5568;">
+                                    <div class="w-full h-10 bg-black mt-4"></div>
+                                    <div class="text-right">
+                                        <p class="text-xs">CVV</p>
+                                        <div class="w-full bg-white text-black p-1 text-right pr-4 font-orbitron">123</div>
+                                    </div>
+                                    <p class="text-xs mt-4">Firma Autorizada. No válida sin firma.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-center mt-4 text-gray-400 text-sm">Haz clic en la tarjeta para voltearla.</p>
+                    </div>
+                    
+                    <!-- QR Code Section -->
+                    <div id="qr-code-section" class="content-section hidden">
+                        <h2 class="font-orbitron text-2xl text-white mb-6">Generar Código QR de Pago</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                            <form id="qr-form" class="space-y-4">
+                                <input id="qr-amount" type="number" placeholder="Monto" class="w-full p-3 rounded-lg text-white">
+                                <input id="qr-concept" type="text" placeholder="Concepto (opcional)" class="w-full p-3 rounded-lg text-white">
+                                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg">Generar QR</button>
+                            </form>
+                             <div id="qr-code-container" class="flex items-center justify-center bg-white p-4 rounded-lg h-48 w-48 mx-auto">
+                                <!-- QR code will be generated here -->
+                                <p class="text-black text-center text-sm">Ingresa un monto y haz clic en generar.</p>
+                             </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Notification Toast -->
+    <div id="notification-toast" class="fixed bottom-8 right-8 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-500">
+        Notificación
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- STATE & DATA ---
+    let currentUser = {
+        name: 'Ana García',
+        balance: 1250340.50,
+        transactions: [
+            { type: 'ingreso', amount: 500000, desc: 'Abono de nómina' },
+            { type: 'gasto', amount: 45000, desc: 'Compra en supermercado' },
+            { type: 'gasto', amount: 80000, desc: 'Pago de servicio de internet' },
+            { type: 'gasto', amount: 15000, desc: 'Café y postre' },
+            { type: 'ingreso', amount: 200000, desc: 'Transferencia de David' },
+            { type: 'gasto', amount: 250000, desc: 'Renta mensual' },
+        ]
+    };
+    let myChart = null;
+
+    // --- DOM ELEMENTS ---
+    const authView = document.getElementById('auth-view');
+    const menuView = document.getElementById('menu-view');
+    const authForms = {
+        login: document.getElementById('login-form'),
+        register: document.getElementById('register-form'),
+        reset: document.getElementById('reset-form')
+    };
+    const authTitle = document.getElementById('auth-title');
+    const mainMenuContainer = document.getElementById('main-menu-container');
+    const contentSections = document.querySelectorAll('.content-section');
+    const backButton = document.getElementById('back-to-menu-button');
+    const bankCard = document.getElementById('bank-card');
+    const notificationToast = document.getElementById('notification-toast');
+    
+    // --- FUNCTIONS ---
+    
+    const showNotification = (message, isError = false) => {
+        notificationToast.textContent = message;
+        notificationToast.className = `fixed bottom-8 right-8 text-white py-3 px-6 rounded-lg shadow-lg transform transition-all duration-500 ${isError ? 'bg-red-500' : 'bg-green-500'}`;
+        notificationToast.classList.remove('translate-y-20', 'opacity-0');
+        setTimeout(() => {
+            notificationToast.classList.add('translate-y-20', 'opacity-0');
+        }, 3000);
+    };
+
+    const switchAuthView = (view) => {
+        Object.values(authForms).forEach(form => form.classList.add('hidden'));
+        if (authForms[view]) {
+            authForms[view].classList.remove('hidden');
+        }
+        const titles = {
+            login: 'Bienvenido de nuevo',
+            register: 'Crea tu cuenta en Acme Bank',
+            reset: 'Recupera tu acceso'
+        };
+        authTitle.textContent = titles[view] || '';
+    };
+
+    const login = (e) => {
+        if(e) e.preventDefault();
+        authView.classList.add('hidden');
+        menuView.classList.remove('hidden');
+        updateDashboard();
+        showNotification(`¡Bienvenida, ${currentUser.name}!`);
+    };
+
+    const logout = () => {
+        menuView.classList.add('hidden');
+        authView.classList.remove('hidden');
+        switchAuthView('login');
+        showSection('welcome-section'); // Reset to default view
+    };
+
+    const updateDashboard = () => {
+        document.getElementById('user-greeting').textContent = `Hola, ${currentUser.name}`;
+        document.getElementById('card-holder-name').textContent = currentUser.name.toUpperCase();
+        document.getElementById('user-balance').textContent = `$${currentUser.balance.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        renderTransactions();
+        renderChart();
+    };
+
+    const showSection = (sectionId) => {
+        contentSections.forEach(section => section.classList.add('hidden'));
+        const activeSection = document.getElementById(sectionId);
+        if (activeSection) {
+            activeSection.classList.remove('hidden');
+            backButton.classList.toggle('hidden', sectionId === 'welcome-section');
+        }
+    };
+    
+    const renderTransactions = () => {
+        const list = document.getElementById('transactions-list');
+        list.innerHTML = '';
+        if (currentUser.transactions.length === 0) {
+            list.innerHTML = '<li class="text-gray-400">No hay movimientos.</li>';
+            return;
+        }
+        currentUser.transactions.forEach(tx => {
+            const isIncome = tx.type === 'ingreso';
+            const li = document.createElement('li');
+            li.className = 'flex justify-between items-center p-2 rounded-md';
+            li.innerHTML = `
+                <div>
+                    <p class="font-bold">${tx.desc}</p>
+                    <p class="text-xs text-gray-400">${isIncome ? 'Ingreso' : 'Gasto'}</p>
+                </div>
+                <p class="font-bold ${isIncome ? 'text-green-400' : 'text-red-400'}">
+                    ${isIncome ? '+' : '-'}$${tx.amount.toLocaleString('es-CO')}
+                </p>
+            `;
+            list.appendChild(li);
+        });
+    };
+    
+    const renderChart = () => {
+        const ctx = document.getElementById('transactionsChart').getContext('2d');
+        const income = currentUser.transactions.filter(t => t.type === 'ingreso').reduce((sum, t) => sum + t.amount, 0);
+        const expense = currentUser.transactions.filter(t => t.type === 'gasto').reduce((sum, t) => sum + t.amount, 0);
+
+        if (myChart) {
+            myChart.destroy();
+        }
+
+        myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Ingresos', 'Gastos'],
+                datasets: [{
+                    label: 'Resumen de Movimientos',
+                    data: [income, expense],
+                    backgroundColor: ['rgba(74, 222, 128, 0.6)', 'rgba(248, 113, 113, 0.6)'],
+                    borderColor: ['rgb(74, 222, 128)', 'rgb(248, 113, 113)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#9ca3af' }
+                    },
+                    x: {
+                        ticks: { color: '#9ca3af' }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    };
+
+    const handleDeposit = (e) => {
+        e.preventDefault();
+        const amountInput = document.getElementById('deposit-amount');
+        const amount = parseFloat(amountInput.value);
+        if (isNaN(amount) || amount <= 0) {
+            showNotification('Por favor, ingresa un monto válido.', true);
+            return;
+        }
+        currentUser.balance += amount;
+        currentUser.transactions.unshift({type: 'ingreso', amount: amount, desc: 'Depósito en línea'});
+        updateDashboard();
+        showNotification(`Se han ingresado $${amount.toLocaleString('es-CO')} a tu cuenta.`);
+        amountInput.value = '';
+        showSection('welcome-section');
+    };
+
+    const handleWithdraw = (e) => {
+        e.preventDefault();
+        const amountInput = document.getElementById('withdraw-amount');
+        const amount = parseFloat(amountInput.value);
+        if (isNaN(amount) || amount <= 0) {
+            showNotification('Por favor, ingresa un monto válido.', true);
+            return;
+        }
+        if (amount > currentUser.balance) {
+            showNotification('Saldo insuficiente.', true);
+            return;
+        }
+        currentUser.balance -= amount;
+        currentUser.transactions.unshift({type: 'gasto', amount: amount, desc: 'Retiro en línea'});
+        updateDashboard();
+        showNotification(`Has retirado $${amount.toLocaleString('es-CO')}.`);
+        amountInput.value = '';
+        showSection('welcome-section');
+    };
+    
+    const handleGenerateQR = (e) => {
+        e.preventDefault();
+        const amount = document.getElementById('qr-amount').value;
+        const concept = document.getElementById('qr-concept').value;
+        const container = document.getElementById('qr-code-container');
+        
+        if (!amount) {
+            showNotification('Debes ingresar un monto para el QR.', true);
+            return;
+        }
+        
+        const qrData = JSON.stringify({
+            recipient: currentUser.name,
+            amount: parseFloat(amount),
+            concept: concept || 'Pago a ' + currentUser.name
+        });
+
+        container.innerHTML = ''; // Clear previous
+        QRCode.toCanvas(qrData, { width: 160 }, (error, canvas) => {
+            if (error) {
+                console.error(error);
+                container.innerHTML = '<p class="text-red-500 text-sm">Error al generar QR</p>';
+                return;
+            }
+            container.appendChild(canvas);
+        });
+    };
+
+    // --- EVENT LISTENERS ---
+
+    authView.addEventListener('click', (e) => {
+        if (e.target.matches('a[data-auth-view]')) {
+            e.preventDefault();
+            switchAuthView(e.target.dataset.authView);
+        }
+    });
+    
+    authForms.login.addEventListener('submit', login);
+    authForms.register.addEventListener('submit', (e) => {
+        e.preventDefault();
+        showNotification('¡Registro exitoso! Ahora puedes iniciar sesión.');
+        switchAuthView('login');
+    });
+    authForms.reset.addEventListener('submit', (e) => {
+        e.preventDefault();
+        showNotification('Se ha enviado un enlace a tu correo.');
+        switchAuthView('login');
+    });
+    
+    document.getElementById('logout-button').addEventListener('click', logout);
+
+    mainMenuContainer.addEventListener('click', (e) => {
+        const button = e.target.closest('button');
+        if (button && button.dataset.section) {
+            showSection(button.dataset.section);
+        }
+    });
+
+    backButton.addEventListener('click', () => showSection('welcome-section'));
+    bankCard.addEventListener('click', () => bankCard.classList.toggle('is-flipped'));
+    
+    document.getElementById('deposit-form').addEventListener('submit', handleDeposit);
+    document.getElementById('withdraw-form').addEventListener('submit', handleWithdraw);
+    document.getElementById('qr-form').addEventListener('submit', handleGenerateQR);
+
+    // Initial setup
+    showSection('welcome-section');
+});
+</script>
+
 </body>
 </html>
