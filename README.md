@@ -2,6 +2,8 @@
 
 - Sandrith Carolina Paez Rincón -- Nicolás Felipe Arrubla Chaux.
 
+- Link Figma: https://www.figma.com/design/PSQH2xXW1exC5JxXHl5uRJ/Figma-basics?node-id=1669-162202&p=f&m=draw
+
 # Proyecto Acme Bank - Autogestión de Cuentas Bancarias
 
 Repositorio oficial del proyecto *Acme Bank*, una aplicación web desarrollada en JavaScript puro que permite a los usuarios la autogestión de sus cuentas bancarias de forma segura, intuitiva y completamente responsive.
