@@ -1,3 +1,4 @@
+/* Estilos Base */
 * {
   box-sizing: border-box;
   font-family: 'Orbitron', sans-serif;
@@ -14,13 +15,7 @@ body {
   position: relative;
 }
 
-.nombre-usuario {
-  display: block;
-  margin-top: 0.5rem;
-  font-size: 1.2rem;
-  color: #00f0ff;
-}
-
+/* Fondo de Partículas */
 #particles-js {
   position: fixed;
   top: 0;
@@ -30,6 +25,7 @@ body {
   z-index: -2;
 }
 
+/* Contenedor Principal */
 .container {
   background: url('img/fondo-escritorio-moderno-vector-diseno-azul-geometrico_53876-135923.avif') no-repeat center center / cover, #ffffffee;
   padding: 10rem 2.6rem;
@@ -40,11 +36,12 @@ body {
   position: relative;
   animation: slideIn 0.6s ease-out;
   backdrop-filter: blur(6px);
+  margin: auto;
 }
-.config-btn {
-  font-size: 4rem;
-  background: none;
-  border: none;
+
+@keyframes slideIn {
+  from { transform: translateY(-40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .titulo-menu {
@@ -54,14 +51,51 @@ body {
   margin-bottom: 1.2rem;
 }
 
+.nombre-usuario {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: #00f0ff;
+}
+
 .saldo {
   text-align: center;
   font-size: 2rem;
-  margin-bottom: 2rem; 
+  margin-bottom: 2rem;
   color: #ffffff;
   background: #1b6bd3dd;
   padding: 1.5rem 5rem;
   border-radius: 10px;
+}
+
+.config-btn {
+  position: fixed;
+  top:75px;
+  left: 35px;
+  font-size: 2rem;
+  color: #3db4f8;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 100;
+  padding: 10px;
+}
+
+.btn-estilo {
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  background: linear-gradient(135deg, #3db4f8, #9a00ff);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #3db4f8aa;
+  transition: transform 0.2s ease;
+}
+
+.btn-estilo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #00f0ffcc;
 }
 
 .menu-opciones {
@@ -91,11 +125,6 @@ body {
   background: linear-gradient(135deg, #3db4f8, #9a00ff);
   transform: scale(1.03);
   box-shadow: 0 0 15px #00f0ffcc;
-}
-
-@keyframes slideIn {
-  from { transform: translateY(-40px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
 }
 
 .oculto {
@@ -129,67 +158,10 @@ body {
   display: block;
 }
 
-.btn-estilo {
-  padding: 0.9rem 2rem;
-  font-size: 1rem;
-  background: linear-gradient(135deg, #3db4f8, #9a00ff);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 0 10px #3db4f8aa;
-  transition: transform 0.2s ease;
-}
-
-.btn-estilo:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #00f0ffcc;
-}
-
 .contenido ul {
   list-style: none;
   padding: 0;
   margin-top: 1rem;
-}
-
-.tarjeta {
-  background: linear-gradient(135deg, #3db4f8, #9a00ff);
-  width: 320px;
-  height: 190px;
-  border-radius: 15px;
-  margin: 2rem auto;
-  color: white;
-  padding: 1.2rem;
-  box-shadow: 0 0 20px #00f0ffaa;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  font-family: 'Orbitron', sans-serif;
-}
-
-.chip {
-  width: 50px;
-  height: 35px;
-  background: gold;
-  border-radius: 8px;
-}
-
-.marca {
-  text-align: right;
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.numero {
-  font-size: 1.4rem;
-  letter-spacing: 2px;
-  margin-top: 1rem;
-}
-
-.validez,
-.nombre {
-  font-size: 0.9rem;
 }
 
 .tarjeta-contenedor {
@@ -290,7 +262,7 @@ body {
   text-align: right;
   margin-top: auto;
   font-style: italic;
-} 
+}
 
 .notificacion {
   position: fixed;
@@ -307,6 +279,7 @@ body {
   transform: translateY(-20px);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
 .notificacion.mostrar {
   opacity: 1;
   transform: translateY(0);
